@@ -91,7 +91,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.5.4</version>
                 <configuration>
-                    <layout>jar</layout>
+                    <mainClass>org.apache.shardingsphere.encrypt.EncryptApplication</mainClass>
+                    <layout>JAR</layout>
+                    <executable>true</executable>
                 </configuration>
                 <executions>
                     <execution>
