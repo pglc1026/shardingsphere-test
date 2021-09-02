@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apache.shardingsphere.encrypt.mapper.AccountInfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.apache.shardingsphere.encrypt.domain.AccountInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="accountName" column="account_name" jdbcType="VARCHAR"/>
+            <result property="accountIdCard" column="account_id_card" jdbcType="VARCHAR"/>
+            <result property="accountMobile" column="account_mobile" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,account_name,account_id_card,
+        account_mobile
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from account_info
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from account_info
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="AccountInfo" useGeneratedKeys="true">
+        insert into account_info
+        ( id,account_name,account_id_card
+        ,account_mobile)
+        values (#{id,jdbcType=BIGINT},#{accountName,jdbcType=VARCHAR},#{accountIdCard,jdbcType=VARCHAR}
+        ,#{accountMobile,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="AccountInfo" useGeneratedKeys="true">
+        insert into account_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="accountName != null">account_name,</if>
+                <if test="accountIdCard != null">account_id_card,</if>
+                <if test="accountMobile != null">account_mobile,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">id = #{id,jdbcType=BIGINT},</if>
+                <if test="accountName != null">account_name = #{accountName,jdbcType=VARCHAR},</if>
+                <if test="accountIdCard != null">account_id_card = #{accountIdCard,jdbcType=VARCHAR},</if>
+                <if test="accountMobile != null">account_mobile = #{accountMobile,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="AccountInfo">
+        update account_info
+        <set>
+                <if test="accountName != null">
+                    account_name = #{accountName,jdbcType=VARCHAR},
+                </if>
+                <if test="accountIdCard != null">
+                    account_id_card = #{accountIdCard,jdbcType=VARCHAR},
+                </if>
+                <if test="accountMobile != null">
+                    account_mobile = #{accountMobile,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="AccountInfo">
+        update account_info
+        set 
+            account_name =  #{accountName,jdbcType=VARCHAR},
+            account_id_card =  #{accountIdCard,jdbcType=VARCHAR},
+            account_mobile =  #{accountMobile,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

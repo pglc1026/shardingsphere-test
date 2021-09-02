@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/encrypt?charactorEncoding=utf8&useUnicode=true&serverTimezone=UTC
+    username: root
+    password: 123456
+    name: datasource
+  shardingsphere:
+    schema:
+      name: encryptDataSource
+    datasource:
+      names: datasource
+    rules:
+      encrypt:
+        query-with-cipher-column: true
+        encryptors:
+          aes:
+            type: AES
+            props:
+              aes-key-value: 1029uaoafudojoajf@aoew!
+        tables:
+          encrypt:
+            columns:
+              account_id_card:
+                cipher-column: account_id_card_cipher
+                encryptor-name: AES
+              account_mobile:
+                cipher-column: account_mobile_cipher
+                encryptor-name: AES
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: org.apache.shardingsphere.encrypt.domain
+  configuration:
+    database-id: encryptDataSource
+
